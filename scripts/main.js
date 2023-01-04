@@ -1,6 +1,8 @@
 const ingredientsList = document.querySelector(".sugIngredents");
 const ustensilsList = document.querySelector(".sugUstensils");
 const appareilsList = document.querySelector(".sugApareils");
+const search = document.querySelector(".search");
+
 
 async function getData() {
   const response = await fetch("./data/recipes.json");
@@ -17,14 +19,14 @@ const createDom = (arr) => {
   const title = document.createElement("h4");
   const timer = document.createElement("span");
   const timerBlock = document.createElement("span");
-  timerBlock.setAttribute("class", "timerBlock")
+  timerBlock.setAttribute("class", "timerBlock");
   const clock = document.createElement("i");
   clock.setAttribute("class", "fa-regular fa-clock");
 
   const descriptionBlock = document.createElement("div");
   descriptionBlock.setAttribute("class", "descBlock");
-  timerBlock.appendChild(clock)
-  timerBlock.appendChild(timer)
+  timerBlock.appendChild(clock);
+  timerBlock.appendChild(timer);
   const ingredients = document.createElement("ul");
   const recipeDesc = document.createElement("div");
 
@@ -60,33 +62,39 @@ const createDom = (arr) => {
 
 const filterRecipe = (arr, e, domElement) => {
   const newArray = [];
-  arr.filter((element) => {
-    const conditionIngred = element.ingredients;
-    let newArr = [];
-    conditionIngred.map((ing) => {
-      newArr.push(ing.ingredient);
-    });
-    let conditionIng = newArr.some((name) => {
-      if (name.toLowerCase().includes(e.target.value.toLowerCase())) {
-        return true;
+  if(search.value == "") {
+    domElement.innerHTML = "";
+    arr.map((recipe) => createDom(recipe));
+  }
+  if (e.target.value.length > 2) {
+    arr.filter((element) => {
+      const conditionIngred = element.ingredients;
+      let newArr = [];
+      conditionIngred.map((ing) => {
+        newArr.push(ing.ingredient);
+      });
+      let conditionIng = newArr.some((name) => {
+        if (name.toLowerCase().includes(e.target.value.toLowerCase())) {
+          return true;
+        }
+      });
+
+      const condition =
+        conditionIng ||
+        element?.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
+        element?.description
+          .toLowerCase()
+          .includes(e.target.value?.toLowerCase());
+      if (condition) {
+        newArray.push(element);
       }
     });
-
-    const condition =
-      conditionIng ||
-      element?.name.toLowerCase().includes(e.target.value?.toLowerCase()) ||
-      element?.description
-        .toLowerCase()
-        .includes(e.target.value?.toLowerCase());
-    if (condition) {
-      newArray.push(element);
-    }
-  });
-  domElement.innerHTML = "";
-  newArray.map((recipe) => createDom(recipe));
+    domElement.innerHTML = "";
+    newArray.map((recipe) => createDom(recipe));
+  }
 };
 
-const filterRecipeByTag = (arr, e, domElement) => {
+const filterTaglistByName = (arr, e, domElement) => {
   const newArray = [];
   arr.filter((element) => {
     const condition =
@@ -109,7 +117,7 @@ async function filterRecipeByTagSS(arr, e, domElement) {
 
   let compareArray = [];
   const tagText = document.querySelectorAll(".tagText");
-  if(tagText.length == 0) {
+  if (tagText.length == 0) {
     domElement.innerHTML = "";
     return recipes.map((recipe) => createDom(recipe));
   }
@@ -196,7 +204,7 @@ async function createTag(arr, element) {
     domElement.setAttribute("class", "tag");
     domElement.textContent = item;
     domElement.addEventListener("click", (event) => {
-      filterRecipeByTag(recipes, event, inpIngred);
+      filterTaglistByName(recipes, event, inpIngred);
     });
     element.appendChild(domElement);
     domElement.addEventListener("click", (event) => {
@@ -280,7 +288,6 @@ async function recipes() {
     //console.log("recipes", recipes);
     recipes.map((recipe) => createDom(recipe));
 
-    const search = document.querySelector(".search");
     search.addEventListener("input", (event) => {
       filterRecipe(recipes, event, inpIngred);
     });

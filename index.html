@@ -11,30 +11,46 @@
     ></script>
   </head>
   <body>
-    <header>
-      <img src="assets/logo.png" class="logo" alt="Les petits plats logo" />
-    </header>
-    <main id="main">
+    <main id="main" class="main">
+      <header>
+        <img src="assets/logo.png" class="logo" alt="Les petits plats logo" />
+      </header>
       <form action="">
         <div class="searchContainer">
-          <input type="search" class="search" placeholder="Rechercher une recette" />
+          <input
+            type="search"
+            class="search"
+            placeholder="Rechercher une recette"
+          />
           <i class="fa-solid fa-magnifying-glass"></i>
         </div>
         <div class="tags"></div>
         <div class="filters">
           <div class="dropdown ingr">
             <div class="arrow"></div>
-            <input type="text" class="filterInput ingredients"  placeholder="Ingredients"/>
+            <input
+              type="text"
+              class="filterInput ingredients"
+              placeholder="Ingredients"
+            />
             <div class="suggestions sugIngredents"></div>
           </div>
           <div class="dropdown appar">
             <div class="arrow"></div>
-            <input type="text" class="filterInput appareils" placeholder="Appareils" />
+            <input
+              type="text"
+              class="filterInput appareils"
+              placeholder="Appareils"
+            />
             <div class="suggestions sugApareils"></div>
           </div>
           <div class="dropdown ust">
             <div class="arrow"></div>
-            <input type="text" class="filterInput ustensils" placeholder="Ustensiles" />
+            <input
+              type="text"
+              class="filterInput ustensils"
+              placeholder="Ustensiles"
+            />
             <div class="suggestions sugUstensils"></div>
           </div>
         </div>

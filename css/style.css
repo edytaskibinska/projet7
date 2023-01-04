@@ -1,6 +1,10 @@
 * {
   box-sizing: border-box;
 }
+.main {
+  margin: 0 auto;
+  max-width: 1024px;
+}
 .logo {
   margin: 20px auto;
   display: block;
@@ -134,17 +138,20 @@
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
 }
 
 .recip {
   position: relative;
   background-color: #c7bebe;
   box-sizing: border-box;
-  margin: 5px;
   flex: 0 0 32%;
   max-height: 350px;
   overflow: hidden;
   border-radius: 5px;
+  margin: 5px;
 }
 
 .desc {
