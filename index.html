@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="assets/favicon.ico" />
+    <title>Les petits plats</title>
+    <script
+      src="https://kit.fontawesome.com/7222698882.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <img src="assets/logo.png" class="logo" alt="Les petits plats logo" />
+    </header>
+    <main id="main">
+      <form action="">
+        <div class="searchContainer">
+          <input type="search" class="search" placeholder="Rechercher une recette" />
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+        <div class="tags"></div>
+        <div class="filters">
+          <div class="dropdown ingr">
+            <div class="arrow"></div>
+            <input type="text" class="filterInput ingredients"  placeholder="Ingredients"/>
+            <div class="suggestions sugIngredents"></div>
+          </div>
+          <div class="dropdown appar">
+            <div class="arrow"></div>
+            <input type="text" class="filterInput appareils" placeholder="Appareils" />
+            <div class="suggestions sugApareils"></div>
+          </div>
+          <div class="dropdown ust">
+            <div class="arrow"></div>
+            <input type="text" class="filterInput ustensils" placeholder="Ustensiles" />
+            <div class="suggestions sugUstensils"></div>
+          </div>
+        </div>
+      </form>
+      <div class="recipes"></div>
+    </main>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
