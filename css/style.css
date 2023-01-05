@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
 .main {
   margin: 0 auto;
   max-width: 1024px;
@@ -67,6 +70,15 @@
 .ust.open {
   height: auto;
 }
+.arrowClick {
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50px;
+  cursor: pointer;
+}
 .arrow {
   border-right: 2px solid white;
   border-bottom: 2px solid white;
@@ -109,6 +121,7 @@
 .tag {
   padding: 5px;
   color: white;
+  cursor: pointer;
 }
 .jellyTag {
   padding: 5px 10px;

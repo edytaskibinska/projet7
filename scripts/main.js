@@ -236,7 +236,7 @@ async function filters() {
     let outputIngredients = flatternArray.map((item) => item.ingredient);
     let newIngredientsList = [...new Set(outputIngredients)];
     createTag(newIngredientsList, ingredientsList);
-    const arrowOnList = document.querySelectorAll(".arrow");
+    const arrowOnList = document.querySelectorAll(".arrowClick");
     arrowOnList.forEach((element) => {
       element.addEventListener("click", (event) => {
         if (element.closest(".dropdown").classList.contains("open")) {
