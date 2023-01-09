@@ -171,6 +171,13 @@ body {
   .recip {
     flex: 0 0 48.4%;
   }
+  .filters {
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .recipes {
+    margin-top: 0;
+  }
 }
 @media all and (max-width: 679px) {
   .recip {
