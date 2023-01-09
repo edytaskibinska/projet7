@@ -10,6 +10,27 @@ async function getData() {
   return datas;
 }
 
+const tagsContainer = document.querySelector(".tags");
+async function createTag(arr, element) {
+  const { recipes } = await getData();
+
+  arr.map((item) => {
+    domElement = document.createElement("div");
+    domElement.setAttribute("class", "tag");
+    domElement.textContent = item;
+    domElement.addEventListener("click", (event) => {
+      filterTaglistByName(recipes, event, inpIngred);
+    });
+    element.appendChild(domElement);
+    domElement.addEventListener("click", (event) => {
+      console.log("Click")
+      createTagJelly(event);
+    });
+  });
+}
+
+
+
 const inpIngred = document.querySelector(".recipes");
 
 const createDom = (arr) => {
@@ -60,8 +81,31 @@ const createDom = (arr) => {
   inpIngred.appendChild(block);
 };
 
+
+const generateIngredientsList = (array) => {
+  const inputIngredients = array.map((item) => item.ingredients);
+  const flatternArray = inputIngredients.flat(1);
+  let outputIngredients = flatternArray.map((item) => item.ingredient);
+  let newIngredientsList = [...new Set(outputIngredients)];
+  return newIngredientsList
+}
+
+const generateAppareilsList = (array) => {
+  const inputAppareils = array.map((item) => item.appliance);
+  let newAppareilsList = [...new Set(inputAppareils)];
+  return newAppareilsList
+}
+const generateUstensilsList = (array) => {
+  const inputUstensils = array.map((item) => item.ustensils);
+  const flatternUst = inputUstensils.flat(1);
+  let newUstensilsList = [...new Set(flatternUst)];
+  return newUstensilsList
+}
+
+
 const filterRecipe = (arr, e, domElement) => {
-  const newArray = [];
+  let newArrayRecipes = [];
+
   if(search.value == "") {
     domElement.innerHTML = "";
     arr.map((recipe) => createDom(recipe));
@@ -86,14 +130,37 @@ const filterRecipe = (arr, e, domElement) => {
           .toLowerCase()
           .includes(e.target.value?.toLowerCase());
       if (condition) {
-        newArray.push(element);
+        newArrayRecipes.push(element);
       }
     });
+    const newTagsIngr = generateIngredientsList(newArrayRecipes)
+    ingredientsList.innerHTML = "";
+    createTag(newTagsIngr, ingredientsList);
+    appareilsList.innerHTML = "";
+    const newAppList = generateAppareilsList(newArrayRecipes)
+    createTag(newAppList, appareilsList);
+    ustensilsList.innerHTML = "";
+    const newUstList = generateUstensilsList(newArrayRecipes)
+    createTag(newUstList, ustensilsList);
+
     domElement.innerHTML = "";
-    newArray.map((recipe) => createDom(recipe));
+    console.log("newArrayRecipes", newArrayRecipes)
+    newArrayRecipes.map((recipe) => createDom(recipe));
+  } else {
+    newArrayRecipes = []
+    domElement.innerHTML = "";
+    arr.map((recipe) => createDom(recipe));
+    const allRecipes = generateIngredientsList(arr)
+    const allAppareils = generateAppareilsList(arr)
+    const allUstensilss = generateUstensilsList(arr)
+    ingredientsList.innerHTML = "";
+    createTag(allRecipes, ingredientsList);
+    appareilsList.innerHTML = "";
+    createTag(allAppareils, appareilsList);
+    ustensilsList.innerHTML = "";
+    createTag(allUstensilss, ustensilsList);
   }
 };
-
 const filterTaglistByName = (arr, e, domElement) => {
   const newArray = [];
   arr.filter((element) => {
@@ -195,24 +262,6 @@ async function createTagJelly(event) {
   filterRecipeByTag(recipes, event, inpIngred);
 }
 
-const tagsContainer = document.querySelector(".tags");
-async function createTag(arr, element) {
-  const { recipes } = await getData();
-
-  arr.map((item) => {
-    domElement = document.createElement("div");
-    domElement.setAttribute("class", "tag");
-    domElement.textContent = item;
-    domElement.addEventListener("click", (event) => {
-      filterTaglistByName(recipes, event, inpIngred);
-    });
-    element.appendChild(domElement);
-    domElement.addEventListener("click", (event) => {
-      console.log("Click")
-      createTagJelly(event);
-    });
-  });
-}
 
 const filterTag = (arr, e, domElement) => {
   const filteredAraray = arr.filter((element) =>
@@ -221,6 +270,8 @@ const filterTag = (arr, e, domElement) => {
   domElement.innerHTML = "";
   createTag(filteredAraray, domElement);
 };
+
+
 
 const inpIngredients = document.querySelector("input.ingredients");
 const inpAppareils = document.querySelector("input.appareils");
@@ -232,11 +283,8 @@ async function filters() {
   const { recipes } = await getData();
   if (recipes) {
     //ingredients code
-    const inputIngredients = recipes.map((item) => item.ingredients);
-    const flatternArray = inputIngredients.flat(1);
-    let outputIngredients = flatternArray.map((item) => item.ingredient);
-    let newIngredientsList = [...new Set(outputIngredients)];
-    createTag(newIngredientsList, ingredientsList);
+    const ingrArray = generateIngredientsList(recipes)
+    createTag(ingrArray, ingredientsList);
     const arrowOnList = document.querySelectorAll(".arrowClick");
     arrowOnList.forEach((element) => {
       element.addEventListener("click", (event) => {
@@ -252,14 +300,16 @@ async function filters() {
       if (inpIngredients.value == "") {
         dropdownIngr.classList.remove("open");
       }
+      console.log("newArrayRecipes", newArrayRecipes)
+
       filterTag(newIngredientsList, event, ingredientsList);
     });
 
     //ustensils code
-    const inputUstensils = recipes.map((item) => item.ustensils);
-    const flatternUst = inputUstensils.flat(1);
-    let newUstensilsList = [...new Set(flatternUst)];
-    createTag(newUstensilsList, ustensilsList);
+    //ustensilsList.innerHTML = "";
+    const newUstList = generateUstensilsList(recipes)
+    createTag(newUstList, appareilsList);
+    //createTag(newUstensilsList, ustensilsList);
     inpUstensils.addEventListener("input", (event) => {
       dropdownUst.classList.add("open");
       if (inpUstensils.value == "") {
@@ -268,9 +318,8 @@ async function filters() {
       filterTag(newUstensilsList, event, ustensilsList);
     });
     //appareils
-    const inputAppareils = recipes.map((item) => item.appliance);
-    let newAppareilsList = [...new Set(inputAppareils)];
-    createTag(newAppareilsList, appareilsList);
+    const newAppList = generateAppareilsList(recipes)
+    createTag(newAppList, ustensilsList);
     inpAppareils.addEventListener("input", (event) => {
       dropdownApp.classList.add("open");
       // console.log("dropdownApp", dropdownApp.classList);
