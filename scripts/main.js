@@ -369,5 +369,5 @@ async function recipes() {
   }
 }
 
-filters();
 recipes();
+filters();
