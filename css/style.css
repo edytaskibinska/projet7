@@ -62,7 +62,7 @@ body {
 }
 .dropdown.open.ingr {
   width: -webkit-fill-available;
-  flex: 0 0 auto
+  flex: 0 0 90%;
 }
 .dropdown.open.ust {
   width: -webkit-fill-available;
@@ -258,5 +258,5 @@ ul {
   position: relative;
   margin: 80px auto;
   border-radius: 5px;
-  
+
 }
