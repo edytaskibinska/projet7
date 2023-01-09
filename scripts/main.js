@@ -158,7 +158,6 @@ const filterRecipe = (arr, e, domElement) => {
     domElement.innerHTML = "";
     newArrayRecipes.map((recipe) => createDom(recipe));
 
-    console.log("toto");
     const ingrTags = document.querySelectorAll(".jellyTag.ingr");
     const appTags = document.querySelectorAll(".jellyTag.appar");
     const ustTags = document.querySelectorAll(".jellyTag.ust");
@@ -356,11 +355,16 @@ async function filters() {
 async function recipes() {
   const { recipes } = await getData();
   if (recipes) {
-    //console.log("recipes", recipes);
     recipes.map((recipe) => createDom(recipe));
-
     search.addEventListener("input", (event) => {
       filterRecipe(recipes, event, inpIngred);
+      if (!inpIngred.childNodes.length) {
+        const noElements = document.createElement("div");
+        noElements.setAttribute("class", "noElements");
+        noElements.textContent =
+          " Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc.";
+        inpIngred.appendChild(noElements);
+      }
     });
   }
 }

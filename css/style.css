@@ -54,15 +54,18 @@ body {
   border-radius: 5px;
   padding: 10px 30px 10px 10px;
   margin: 20px;
-  overflow: scroll;
+  overflow: hidden;
   height: 46px;
 }
+.dropdown.open {
+  overflow: scroll;
+}
 .dropdown.open.ingr {
-  width: 50%;
-  flex: 0 0 90%;
+  width: -webkit-fill-available;
+  flex: 0 0 auto
 }
 .dropdown.open.ust {
-  width: 50%;
+  width: -webkit-fill-available;
   flex: 0 0 75%;
 }
 .ingr.open,
@@ -126,7 +129,7 @@ body {
   text-overflow: ellipsis;
 }
 .sugIngredents .tag {
-  max-width: 15%;
+  max-width: 100px;
 }
 .jellyTag {
   padding: 5px 10px;
@@ -246,4 +249,14 @@ ul {
   display: flex;
   flex: 0 0 30%;
   justify-content: flex-end;
+}
+
+.noElements {
+  background-color: #f0f0f0;
+  color: #c7bebe;
+  padding: 20px;
+  position: relative;
+  margin: 80px auto;
+  border-radius: 5px;
+  
 }
