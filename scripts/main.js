@@ -52,7 +52,9 @@ const createDom = (arr) => {
 
     const ingr = document.createElement("span");
     const quantity = document.createElement("span");
-    quantity.textContent = ingredient?.quantity;
+    const qty = ingredient?.quantity ?? "";
+    const units = ingredient?.unit ?? "";
+    quantity.textContent = `${qty} ${units}`;
     ingr.textContent = ingredient?.ingredient;
     listeEleme.appendChild(ingr);
     listeEleme.appendChild(quantity);
