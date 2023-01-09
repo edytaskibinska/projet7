@@ -52,7 +52,9 @@ const createDom = (arr) => {
 
     const ingr = document.createElement("span");
     const quantity = document.createElement("span");
-    quantity.textContent = ingredient?.quantity;
+    const qty = ingredient?.quantity ?? "";
+    const units = ingredient?.unit ?? "";
+    quantity.textContent = `${qty} ${units}`;
     ingr.textContent = ingredient?.ingredient;
     listeEleme.appendChild(ingr);
     listeEleme.appendChild(quantity);
@@ -182,7 +184,7 @@ const filterRecipe = (arr, e, domElement) => {
 };
 const filterTaglistByName = (arr, e, domElement) => {
   const newArray = [];
-  arr.filter((element) => {
+  for (let element of arr) {
     const condition =
       element?.name
         .toLowerCase()
@@ -197,7 +199,7 @@ const filterTaglistByName = (arr, e, domElement) => {
         newArray.push(element);
       }
     }
-  });
+  }
   domElement.innerHTML = "";
   newArray.map((recipe) => createDom(recipe));
 };
@@ -216,7 +218,7 @@ async function filterRecipeByTag(arr, e, domElement) {
   });
   let newArray = [];
   compareArray.forEach((elem) => {
-    arr.filter((element) => {
+    for (let element of arr) {
       const condition =
         element?.name.toLowerCase().includes(elem.toLowerCase()) ||
         element?.description.toLowerCase().includes(elem.toLowerCase());
@@ -227,7 +229,7 @@ async function filterRecipeByTag(arr, e, domElement) {
           newArray.push(element);
         }
       }
-    });
+    }
   });
 
   domElement.innerHTML = "";
