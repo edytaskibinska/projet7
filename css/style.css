@@ -167,6 +167,21 @@ body {
   margin: 5px;
 }
 
+@media all and (max-width: 803px) {
+  .recip {
+    flex: 0 0 48.4%;
+  }
+}
+@media all and (max-width: 679px) {
+  .recip {
+    flex: 0 0 60%;
+  }
+  .recipes {
+    justify-content: center;
+  }
+}
+
+
 .desc {
   margin-top: 150px;
   background-color: #f0f0f0;

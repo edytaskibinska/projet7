@@ -112,7 +112,7 @@ const filterTaglistByName = (arr, e, domElement) => {
   newArray.map((recipe) => createDom(recipe));
 };
 
-async function filterRecipeByTagSS(arr, e, domElement) {
+async function filterRecipeByTag(arr, e, domElement) {
   const { recipes } = await getData();
 
   let compareArray = [];
@@ -188,11 +188,11 @@ async function createTagJelly(event) {
   closeX.forEach((element) => {
     element.addEventListener("click", (event) => {
       element.closest(".jellyTag").remove();
-      filterRecipeByTagSS(recipes, event, inpIngred);
+      filterRecipeByTag(recipes, event, inpIngred);
     });
   });
 
-  filterRecipeByTagSS(recipes, event, inpIngred);
+  filterRecipeByTag(recipes, event, inpIngred);
 }
 
 const tagsContainer = document.querySelector(".tags");
@@ -208,6 +208,7 @@ async function createTag(arr, element) {
     });
     element.appendChild(domElement);
     domElement.addEventListener("click", (event) => {
+      console.log("Click")
       createTagJelly(event);
     });
   });
