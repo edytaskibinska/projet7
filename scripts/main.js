@@ -3,7 +3,6 @@ const ustensilsList = document.querySelector(".sugUstensils");
 const appareilsList = document.querySelector(".sugApareils");
 const search = document.querySelector(".search");
 
-
 async function getData() {
   const response = await fetch("./data/recipes.json");
   const datas = await response.json();
@@ -23,13 +22,10 @@ async function createTag(arr, element) {
     });
     element.appendChild(domElement);
     domElement.addEventListener("click", (event) => {
-      console.log("Click")
       createTagJelly(event);
     });
   });
 }
-
-
 
 const inpIngred = document.querySelector(".recipes");
 
@@ -67,7 +63,7 @@ const createDom = (arr) => {
 
   recipeDesc.textContent = arr.description;
   title.textContent = arr.name;
-  timer.textContent = arr.time;
+  timer.textContent = `${arr.time} min`;
 
   titleBlock.appendChild(title);
   titleBlock.appendChild(timerBlock);
@@ -81,32 +77,44 @@ const createDom = (arr) => {
   inpIngred.appendChild(block);
 };
 
-
 const generateIngredientsList = (array) => {
   const inputIngredients = array.map((item) => item.ingredients);
   const flatternArray = inputIngredients.flat(1);
   let outputIngredients = flatternArray.map((item) => item.ingredient);
   let newIngredientsList = [...new Set(outputIngredients)];
-  return newIngredientsList
-}
+  return newIngredientsList;
+};
 
 const generateAppareilsList = (array) => {
   const inputAppareils = array.map((item) => item.appliance);
   let newAppareilsList = [...new Set(inputAppareils)];
-  return newAppareilsList
-}
+  return newAppareilsList;
+};
 const generateUstensilsList = (array) => {
   const inputUstensils = array.map((item) => item.ustensils);
   const flatternUst = inputUstensils.flat(1);
   let newUstensilsList = [...new Set(flatternUst)];
-  return newUstensilsList
-}
+  return newUstensilsList;
+};
 
+const tagListFiltering = (elem, list) => {
+  elem.forEach((element) => {
+    const compareElement = element.querySelector(".tagText");
+    if (
+      list.includes(compareElement.textContent) ||
+      list.includes(compareElement.textContent.toLowerCase())
+    ) {
+      return;
+    } else {
+      compareElement.parentNode.remove();
+    }
+  });
+};
 
 const filterRecipe = (arr, e, domElement) => {
   let newArrayRecipes = [];
 
-  if(search.value == "") {
+  if (search.value == "") {
     domElement.innerHTML = "";
     arr.map((recipe) => createDom(recipe));
   }
@@ -130,29 +138,40 @@ const filterRecipe = (arr, e, domElement) => {
           .toLowerCase()
           .includes(e.target.value?.toLowerCase());
       if (condition) {
-        newArrayRecipes.push(element);
+        if (newArrayRecipes.includes(element)) {
+          return;
+        } else {
+          newArrayRecipes.push(element);
+        }
       }
     });
-    const newTagsIngr = generateIngredientsList(newArrayRecipes)
+    const newTagsIngr = generateIngredientsList(newArrayRecipes);
     ingredientsList.innerHTML = "";
     createTag(newTagsIngr, ingredientsList);
     appareilsList.innerHTML = "";
-    const newAppList = generateAppareilsList(newArrayRecipes)
+    const newAppList = generateAppareilsList(newArrayRecipes);
     createTag(newAppList, appareilsList);
     ustensilsList.innerHTML = "";
-    const newUstList = generateUstensilsList(newArrayRecipes)
+    const newUstList = generateUstensilsList(newArrayRecipes);
     createTag(newUstList, ustensilsList);
 
     domElement.innerHTML = "";
-    console.log("newArrayRecipes", newArrayRecipes)
     newArrayRecipes.map((recipe) => createDom(recipe));
+
+    console.log("toto");
+    const ingrTags = document.querySelectorAll(".jellyTag.ingr");
+    const appTags = document.querySelectorAll(".jellyTag.appar");
+    const ustTags = document.querySelectorAll(".jellyTag.ust");
+    tagListFiltering(ingrTags, newTagsIngr);
+    tagListFiltering(appTags, newAppList);
+    tagListFiltering(ustTags, newUstList);
   } else {
-    newArrayRecipes = []
+    newArrayRecipes = [];
     domElement.innerHTML = "";
     arr.map((recipe) => createDom(recipe));
-    const allRecipes = generateIngredientsList(arr)
-    const allAppareils = generateAppareilsList(arr)
-    const allUstensilss = generateUstensilsList(arr)
+    const allRecipes = generateIngredientsList(arr);
+    const allAppareils = generateAppareilsList(arr);
+    const allUstensilss = generateUstensilsList(arr);
     ingredientsList.innerHTML = "";
     createTag(allRecipes, ingredientsList);
     appareilsList.innerHTML = "";
@@ -172,7 +191,11 @@ const filterTaglistByName = (arr, e, domElement) => {
         .toLowerCase()
         .includes(e.target?.textContent.toLowerCase());
     if (condition) {
-      newArray.push(element);
+      if (newArray.includes(element)) {
+        return;
+      } else {
+        newArray.push(element);
+      }
     }
   });
   domElement.innerHTML = "";
@@ -198,13 +221,16 @@ async function filterRecipeByTag(arr, e, domElement) {
         element?.name.toLowerCase().includes(elem.toLowerCase()) ||
         element?.description.toLowerCase().includes(elem.toLowerCase());
       if (condition) {
-        newArray.push(element);
+        if (newArray.includes(element)) {
+          return;
+        } else {
+          newArray.push(element);
+        }
       }
     });
   });
 
   domElement.innerHTML = "";
-
   newArray.map((recipe) => createDom(recipe));
 }
 let tagList = [];
@@ -262,16 +288,17 @@ async function createTagJelly(event) {
   filterRecipeByTag(recipes, event, inpIngred);
 }
 
-
 const filterTag = (arr, e, domElement) => {
+  if (e.target.value == "") {
+    domElement.innerHTML = "";
+    createTag(arr, domElement);
+  }
   const filteredAraray = arr.filter((element) =>
     element.toLowerCase().includes(e.target.value.toLowerCase())
   );
   domElement.innerHTML = "";
   createTag(filteredAraray, domElement);
 };
-
-
 
 const inpIngredients = document.querySelector("input.ingredients");
 const inpAppareils = document.querySelector("input.appareils");
@@ -283,7 +310,7 @@ async function filters() {
   const { recipes } = await getData();
   if (recipes) {
     //ingredients code
-    const ingrArray = generateIngredientsList(recipes)
+    const ingrArray = generateIngredientsList(recipes);
     createTag(ingrArray, ingredientsList);
     const arrowOnList = document.querySelectorAll(".arrowClick");
     arrowOnList.forEach((element) => {
@@ -300,34 +327,28 @@ async function filters() {
       if (inpIngredients.value == "") {
         dropdownIngr.classList.remove("open");
       }
-      console.log("newArrayRecipes", newArrayRecipes)
-
-      filterTag(newIngredientsList, event, ingredientsList);
+      filterTag(ingrArray, event, ingredientsList);
     });
 
     //ustensils code
-    //ustensilsList.innerHTML = "";
-    const newUstList = generateUstensilsList(recipes)
-    createTag(newUstList, appareilsList);
-    //createTag(newUstensilsList, ustensilsList);
+    const newUstList = generateUstensilsList(recipes);
+    createTag(newUstList, ustensilsList);
     inpUstensils.addEventListener("input", (event) => {
       dropdownUst.classList.add("open");
       if (inpUstensils.value == "") {
         dropdownUst.classList.remove("open");
       }
-      filterTag(newUstensilsList, event, ustensilsList);
+      filterTag(newUstList, event, ustensilsList);
     });
     //appareils
-    const newAppList = generateAppareilsList(recipes)
-    createTag(newAppList, ustensilsList);
+    const newAppList = generateAppareilsList(recipes);
+    createTag(newAppList, appareilsList);
     inpAppareils.addEventListener("input", (event) => {
       dropdownApp.classList.add("open");
-      // console.log("dropdownApp", dropdownApp.classList);
-
       if (inpAppareils.value == "") {
         dropdownApp.classList.remove("open");
       }
-      filterTag(newAppareilsList, event, appareilsList);
+      filterTag(newAppList, event, appareilsList);
     });
   }
 }
@@ -343,11 +364,6 @@ async function recipes() {
     });
   }
 }
-async function init() {
-  // Récupère les datas des photographes
-  const { recipes } = await getData();
-}
+
 filters();
 recipes();
-
-init();

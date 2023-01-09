@@ -54,7 +54,7 @@ body {
   border-radius: 5px;
   padding: 10px 30px 10px 10px;
   margin: 20px;
-  overflow: hidden;
+  overflow: scroll;
   height: 46px;
 }
 .dropdown.open.ingr {
@@ -122,6 +122,11 @@ body {
   padding: 5px;
   color: white;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sugIngredents .tag {
+  max-width: 15%;
 }
 .jellyTag {
   padding: 5px 10px;
@@ -201,7 +206,10 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
+.descBlock li span:first-child {
+  margin-right: 2px;
+  font-weight: 600;
+}
 .descBlock div {
   margin-left: 10px;
   width: 160px;
@@ -235,5 +243,7 @@ ul {
   margin-right: 5px;
 }
 .timerBlock {
-  flex: 0 0 20%;
+  display: flex;
+  flex: 0 0 30%;
+  justify-content: flex-end;
 }
