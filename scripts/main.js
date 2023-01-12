@@ -234,10 +234,11 @@ async function filterRecipeByTag(arr, e, domElement) {
   domElement.innerHTML = "";
   newArray.map((recipe) => createDom(recipe));
 }
-let tagList = [];
 
 async function createTagJelly(event) {
   const { recipes } = await getData();
+  let tagList = [];
+
   let tagColor = "";
   if (event.target.closest(".sugIngredents")) {
     tagColor = "ingr";
