@@ -121,7 +121,7 @@ const filterRecipe = (arr, e, domElement) => {
     arr.map((recipe) => createDom(recipe));
   }
   if (e.target.value.length > 2) {
-    for (let element of arr) {
+    arr.filter((element) => {
       const conditionIngred = element.ingredients;
       let newArr = [];
       conditionIngred.map((ing) => {
@@ -146,8 +146,7 @@ const filterRecipe = (arr, e, domElement) => {
           newArrayRecipes.push(element);
         }
       }
-    }
-
+    });
     const newTagsIngr = generateIngredientsList(newArrayRecipes);
     ingredientsList.innerHTML = "";
     createTag(newTagsIngr, ingredientsList);
@@ -184,7 +183,7 @@ const filterRecipe = (arr, e, domElement) => {
 };
 const filterTaglistByName = (arr, e, domElement) => {
   const newArray = [];
-  for (let element of arr) {
+  arr.filter((element) => {
     const condition =
       element?.name
         .toLowerCase()
@@ -199,7 +198,7 @@ const filterTaglistByName = (arr, e, domElement) => {
         newArray.push(element);
       }
     }
-  }
+  });
   domElement.innerHTML = "";
   newArray.map((recipe) => createDom(recipe));
 };
@@ -218,7 +217,7 @@ async function filterRecipeByTag(arr, e, domElement) {
   });
   let newArray = [];
   compareArray.forEach((elem) => {
-    for (let element of arr) {
+    arr.filter((element) => {
       const condition =
         element?.name.toLowerCase().includes(elem.toLowerCase()) ||
         element?.description.toLowerCase().includes(elem.toLowerCase());
@@ -229,15 +228,16 @@ async function filterRecipeByTag(arr, e, domElement) {
           newArray.push(element);
         }
       }
-    }
+    });
   });
 
   domElement.innerHTML = "";
   newArray.map((recipe) => createDom(recipe));
 }
-let tagList = [];
 
 async function createTagJelly(event) {
+  let tagList = [];
+
   const { recipes } = await getData();
   let tagColor = "";
   if (event.target.closest(".sugIngredents")) {
