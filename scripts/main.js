@@ -121,7 +121,7 @@ const filterRecipe = (arr, e, domElement) => {
     arr.map((recipe) => createDom(recipe));
   }
   if (e.target.value.length > 2) {
-    arr.filter((element) => {
+    for (element of arr) {
       const conditionIngred = element.ingredients;
       let newArr = [];
       conditionIngred.map((ing) => {
@@ -146,7 +146,9 @@ const filterRecipe = (arr, e, domElement) => {
           newArrayRecipes.push(element);
         }
       }
-    });
+    }
+ 
+  
     const newTagsIngr = generateIngredientsList(newArrayRecipes);
     ingredientsList.innerHTML = "";
     createTag(newTagsIngr, ingredientsList);
